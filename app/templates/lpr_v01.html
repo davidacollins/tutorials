@@ -1,0 +1,96 @@
+<html>
+    <head>
+        <title>Tutorial</title>
+        <style>
+        table, th, td {
+            border: 4px solid black;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+</style>
+    </head>
+    <body>
+    <h1 align="center">LPR Ballot</h1>
+    <form action="" method="post">
+    <table style="width:90%" align="center">
+        <col width="10%">
+        <col width="05%">
+        <col width="15%">
+        <col width="05%">
+        <col width="15%">
+        <col width="05%">
+        <col width="15%">
+        <col width="05%">
+        <col width="15%">
+        <tr> 
+        <td>Party</td>
+        <td colspan="2" align="center">Riding #1</td>
+        <td colspan="2" align="center">Riding #2</td>
+        <td colspan="2" align="center">Riding #3</td>
+        <td colspan="2" align="center">Riding #4</td>
+        </tr>
+<tr>
+<td>
+<table style="width:100%" align="center">
+    {% for party in form.party %}
+    <tr> {{ party }} </tr>
+    {% endfor %}
+</table>
+</td>
+<td colspan="8" align="center">
+<table style="width:100%" align="center">
+        <tr>
+        <td>  </td>
+        {% for vote in form.vote_dog %}
+            {% if vote.label != '': %}
+                <td>{{ vote(size="2") }}</td> <td>{{ vote.label }}</td>
+
+            {% endif %}
+        {% endfor %}
+        </tr>
+
+        <tr>
+        <td>  </td>
+        {% for vote in form.vote_cat %}
+            {% if vote.label != '': %}
+                <td>{{ vote(size="2") }}</td> <td>{{ vote.label }}</td>
+
+            {% endif %}
+        {% endfor %}
+        </tr>
+
+        <tr>
+        <td>  </td>
+        {% for vote in form.vote_rabbit %}
+            {% if vote.label != '': %}
+                <td>{{ vote(size="2") }}</td> <td>{{ vote.label }}</td>
+
+            {% endif %}
+        {% endfor %}
+        </tr>
+
+        <tr>
+        <td>  </td>
+        {% for vote in form.vote_bird %}
+            {% if vote.label != '': %}
+                <td>{{ vote(size="2") }}</td> <td>{{ vote.label }}</td>
+
+            {% endif %}
+        {% endfor %}
+        </tr>
+</table>
+</td>
+</tr>
+        <tr>
+        <td> </td>
+        <td colspan="8" align="center">{{ form.submit }}</td>
+        </tr>
+
+    </table>
+    </body>
+</html>
+
+

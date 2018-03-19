@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <title>Tutorial</title>
+        <style>
+        table, th, td {
+            border: 4px solid black;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+</style>
+    </head>
+    <body>
+    <h1 align="center">MMP Ballot</h1>
+    <form action="" method="post">
+
+    <table style="width:75%" align="center">
+    <tr>
+    <td>
+    <table style="width:100%">
+        <col width="25%">
+        <col width="25">
+        <col width="50%">
+        <tr> 
+        <td>Party</td>
+        <td colspan="2" align="center">Candidate</td>
+        </tr>
+        {% for vote in formzip %}
+            <tr>
+            <td>{{ vote[0] }}</td>
+            <td>{{ vote[1] }}</td>
+            <td>{{ vote[1].label }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </td>
+    <td>
+    <table style="width:100%">
+        <col width="25">
+        <col width="75%">
+        <tr>
+        <td colspan="2" align="center">Party</td>
+        </tr>
+        {% for vote in form.party_vote %}
+            <tr>
+            <td>{{ vote }}</td>
+            <td>{{ vote.label }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </td>
+    </tr>
+        <tr>
+            <td colspan="4" align="center">{{ form.submit }}</td>
+        </tr>
+    </table>
+    </body>
+</html>

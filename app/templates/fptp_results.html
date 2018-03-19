@@ -1,0 +1,74 @@
+<html>
+    <head>
+        <title>Tutorial</title>
+        <style>
+        table1, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        #table2, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        }
+        #table3, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        }
+        </style>
+    </head>
+    <body>
+    <h1 align="center">FPTP Election Results</h1>
+    <table style="width:100%" align="center" id="table1">
+        <tr>
+            <h2 align="center">by Riding</h2>
+        </tr>
+        <tr>
+        <form action="" method="post">
+        <table style="width:70%" align="center" id="table2">
+            <col width="30%">
+            <col width="25%">
+            <col width="30%">
+            <col width="15%">
+            <tr> 
+                <td align="center">Riding</td>
+                <td colspan="3" align="center">Winner</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td align="center"> Party </td>
+                <td align="center"> Candidate </td>
+                <td align="center"> Votes </td>
+            </tr>
+            {% for i in win %}
+                <tr>
+                    <td align="center">{{ i[0] }}</td>
+                    <td align="center">{{ i[1] }}</td>
+                    <td align="center">{{ i[2] }}</td>
+                    <td align="center">{{ i[3] }} / {{ i[4] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        </tr>
+        <tr> 
+            <h2 align="center">by Party</h2>
+        </tr>
+        <tr> 
+        <form action="" method="post">
+        <table style="width:40%" align="center"  id="table3">
+            <col width="55%">
+            <col width="45%">
+            <tr> 
+                <td align="center">Party</td>
+                <td colspan="3" align="center">Total Votes</td>
+            </tr>
+            {% for i in pwin %}
+                <tr>
+                    <td align="center">{{ i[0] }}</td>
+                    <td align="center">{{ i[1] }} ({{ i[2] }}%)</td>
+                </tr>
+            {% endfor %}
+        </table>
+        </tr>
+    </table>
+    </body>
+</html>
