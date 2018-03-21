@@ -1,0 +1,35 @@
+@app.route('/resultsFPTP', methods=['GET', 'POST'])
+def resultsFPTP():
+    # pairs from choice value with label
+    [val, candid] = list(zip(*FPTPForm.candidates))
+#    print()
+#    print('candid :', candid)
+#    print('val :', val)  
+#    print()  
+    k = 0
+    win = []
+    for i in riding:
+        results = FPTPVote.riding_results(FPTPVote, val, i, "Election")
+        winner = sorted(results, key=lambda x: x[1], reverse=True)[0]
+        sum_vote = sum(s[1] for s in results)
+
+        # Will print candidates and their respective votes per riding
+        idx = val.index(winner[0])
+        print(i, 'winner:')
+        print(FPTPForm.party[idx], ': ', FPTPForm.candidates[idx][1], ' with ', winner[1], ' votes.')
+        win.append([i, FPTPForm.party[idx], FPTPForm.candidates[idx][1], winner[1], sum_vote])
+        k += 1
+
+        # Will print candidates and their respective votes per riding
+        print('Election results in ', i, 'riding.')
+        for c in results:
+            print("Candidate ", c[0], " received ", c[1], " votes.")
+    
+    pwin = []
+    for i in FPTPForm.party:
+        idx = FPTPForm.party.index(i)
+        candid_value = val[idx] 
+        results = FPTPVote.party_results(FPTPVote, candid_value, "Election")
+        pwin.append([i, results])
+    print(pwin)
+    return render_template('fptp_results.html', title='Results', win=win, pwin=pwin)

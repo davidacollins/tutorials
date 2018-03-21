@@ -56,8 +56,8 @@ class LPRRank(db.Model):
     rank = db.Column(db.Integer, index=True, unique=False) 
     user_id = db.Column(db.Integer, db.ForeignKey('lprvote.id'))
 
-    def __init__(self):
-        return (candid, rank, user_id)
+    def __init__(self, candid=None, rank=None, user_id=None):
+        self.data = (candid, rank, user_id)
 
     def __repr__(self):
 #        return (self.candid, self.rank, self.user_id)

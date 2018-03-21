@@ -8,6 +8,7 @@ from datetime import datetime
 import app.calculations as cal
 
 vv = str(hex(randint(0,999999999)))
+print(vv)
 riding = ['East Riding', 'South Riding', 'West Riding', 'North Riding']
 election = 'Mock Pet Election'
 district = 'Happy Valley'
@@ -45,8 +46,11 @@ def resultsFPTP():
         results = cal.party_results(FPTPVote, candid_value, election)
         pwin.append([i, results])
     ptotal = sum(s[1] for s in pwin)
+    print('ptotal (fptp) : ', ptotal)
     for i in pwin:
         i.append('{:02.0f}'.format(i[1]/ptotal*100))
+    print()
+    print()
     return render_template('fptp_results.html', title='Results', win=win, pwin=pwin)
 
 
@@ -82,19 +86,30 @@ def resultsMMP():
         candid_value = val[idx] 
         results = cal.party_results(MMPVote, candid_value, election)
         pwin.append([i, results])
-
     ptotal = sum(s[1] for s in pwin)
+    print('ptotal (mmp) : ', ptotal)
     for i in pwin:
         i.append('{:02.0f}'.format(i[1]/ptotal*100))
+    print()
+    print()
+    print(pwin)
 
     [pval, party] = list(zip(*MMPForm.partymmp))
     for i in pval:
         top_results = cal.topup_results(MMPVote, i, election)
         twin.append([i, top_results])
-
     ttotal = sum(s[1] for s in pwin)
+
     for i in twin:
         i.append('{:02.0f}'.format(i[1]/ttotal*100))
+    print()
+    print()
+    print(twin)
+
+    print('ttotal (mmp) : ', ttotal)
+    print()
+    print('pwin : ', pwin)
+    print('twin : ', twin)
     return render_template('mmp_results.html', title='Results', win=win, pwin=pwin, twin=twin)
 
 @app.route('/')
@@ -118,35 +133,55 @@ def description():
 @app.route('/directions', methods=['GET'])
 def directions():
     form = DirectionsForm()
+  #  try:
     tempkeys = Directions.query.all()
+ #   print('KEYS : ', tempkeys)
     keys = [i.voter_key for i in tempkeys]
+ #   print('KEYS DATA : ', keys)
     global vv
     for key in keys:
         if key == vv:
             vv = str(hex(randint(0,999999999)))
             break 
-
+ #   except:   
+ #   print()
+ #   print('vv in Directions : ', vv)
+    print()
     voter = Directions(voter_key=vv)
     db.session.add(voter)
     db.session.commit()
+    voter = Directions.query.all()
+    print('--- Directions ---')
+    for d in voter:
+        print(d.id, d.voter_key, d.timestamp)   
+    
     redirect('fptp')
     return render_template('directions.html', title='Directions', form=form)
 
 
 @app.route('/fptp', methods=['GET', 'POST'])
 def fptp():
-    ''' Takes data from forms.py
-        Reshapes data and sends to fptp.html - incl time spent on page
-        Receives votes from fptp.html and adds to database
-    '''
     form = FPTPForm()
     party = form.party
     formzip = [list(a) for a in zip(form.party, form.cast_vote)] 
+ #   print()
+ #   print(form.cast_vote.data)
     if form.cast_vote.data != 'None':
-        # Calculates time spent on FPTP ballot page
+        
+ #       voted = FPTPVote(candid=form.cast_vote.data)
+ #       print()
+ #       print('inside IF :', form.cast_vote.data)
+ #       print(FPTPVote.query.all())
+ #       print()
         dt = Directions.query.filter(Directions.voter_key==vv).all()
         deltatime = datetime.utcnow() - dt[0].timestamp
-        dlt = str(deltatime.seconds+deltatime.microseconds/1000000)        
+        dlt = str(deltatime.seconds+deltatime.microseconds/1000000)
+        print()
+ #       print('DELTA TIME : ', deltatime)
+ #       print(type(deltatime))
+ #       print(dlt)
+ #       print(type(dlt)) 
+        
         voter = FPTPVote(voter_key=vv, 
                          candid=form.cast_vote.data,
                          riding=riding[randint(0,3)],
@@ -154,19 +189,21 @@ def fptp():
                          election=election)
         db.session.add(voter)
         db.session.commit()
+        voter = FPTPVote.query.all()
+        print('--- FPTP ---')
+        for d in voter:
+            print(d.id, d.voter_key, d.candid, d.riding, d.timestamp, d.election) 
         return redirect('mmp')
     return render_template('fptp.html', title='Home', form=form, formzip=formzip, submit=form.submit)
 
 
 @app.route('/mmp', methods=['GET', 'POST'])
 def mmp():
-    ''' Takes data from forms.py
-        Reshapes data and sends to fptp.html - incl time spent on page
-        Receives votes from fptp.html and adds to database
-    '''
     form = MMPForm()
     party = form.party
     formzip = [list(a) for a in zip(form.party, form.candid_vote)] 
+    print()
+#    print(form.candid_vote.data, form.party_vote.data)
     if (form.candid_vote.data != 'None') and (form.party_vote.data != 'None'):
         dt = Directions.query.filter(Directions.voter_key==vv).all()
         ft = FPTPVote.query.filter(FPTPVote.voter_key==vv).all()
@@ -181,24 +218,30 @@ def mmp():
         
         db.session.add(voter)
         db.session.commit()
+        voter = MMPVote.query.all()
+        print('--- MMP ---')
+        for d in voter:
+            print(d.id, d.voter_key, d.candid, d.riding, d.timestamp, d.party, d.election) 
+        print()
         return redirect('lpr')
     return render_template('mmp.html', title='Home', form=form, formzip=formzip, submit=form.submit)
 
 
 @app.route('/lpr', methods=['GET', 'POST'])
 def lpr():
-    ''' Takes data from forms.py
-        Reshapes data and sends to fptp.html - incl time spent on page
-        Receives votes from fptp.html and adds to database
-    '''
     form = LPRForm() 
     formdata = AnimalForm()
+ #   print(form.vote.vote_dog.data, form.vote.vote_dog.data != None)
+ #   print(form.vote.vote_cat.data, form.vote.vote_cat.data != None)
+ #   print(form.vote.vote_rabbit.data, form.vote.vote_rabbit.data != None)
+ #   print(form.vote.vote_bird.data, form.vote.vote_bird.data != None)
     if (form.vote.vote_dog.data != None) or (form.vote.vote_cat.data != None) \
         or (form.vote.vote_rabbit.data != None) or (form.vote.vote_bird.data != None):
         animal_vote = form.vote.vote_dog.data+form.vote.vote_cat.data+  \
                       form.vote.vote_rabbit.data+form.vote.vote_bird.data
         ssort02 = sorted([i for i in zip(AnimalForm.animal, animal_vote) \
                           if i[1]!=''], key=lambda x: x[1], reverse=False)
+        print('ssort02 :', ssort02)
 
         dt = Directions.query.filter(Directions.voter_key==vv).all()
         temp_time = datetime.utcnow() - dt[0].timestamp 
@@ -213,28 +256,42 @@ def lpr():
                         election=election)        
         db.session.add(voter)
         db.session.commit()
-
         l = lprvote.query.filter(lprvote.voter_key==vv).all()
+
+        print()
+        print('l =', l[0])
+        print()
+      #  ranked = LPRRank(candid=ssort02[0][0], rank=int(ssort02[0][1]), ballot=l[0])
+      #  '''
         for i in ssort02:
             ranked = LPRRank()
             ranked.candid=i[0]
             ranked.rank=int(i[1])
             ranked.ballot=l[0]
+            print(ranked)
             db.session.add(ranked)
             db.session.commit()
+     #   '''
+     #   db.session.add(ranked)
+     #   db.session.commit()
+        voters = lprvote.query.all()
+        print('--- LPR ---')
+        for d in voters:
+            print(d.id, d.voter_key, d.riding, d.timestamp, d.district, d.election) 
+        print()
         return redirect('title')
     return render_template('lpr.html', title='Home', form=form, formdata=formdata)
 
 
 
 
-
-
-
-
-
-
-
-
-
-
+'''
+        {% for vote in form.cast_vote %}
+            <tr>
+            {% if vote.label != '': %}
+                <td>{{ vote }}</td>
+                <td>{{ vote.label }}</td>
+            {% endif %}
+            </tr>
+        {% endfor %}
+'''

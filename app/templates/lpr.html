@@ -10,7 +10,7 @@
             border: 1px solid black;
             border-collapse: collapse;
         }
-</style>
+        </style>
     </head>
     <body>
     <h1 align="center">LPR Ballot</h1>
@@ -35,7 +35,7 @@
 <tr>
 <td>
 <table style="width:100%" align="center">
-    {% for party in form.party %}
+    {% for party in formdata.party %}
     <tr> {{ party }} </tr>
     {% endfor %}
 </table>

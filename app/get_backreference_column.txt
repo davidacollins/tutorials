@@ -1,0 +1,17 @@
+# line comprehension for using a backreferenced SQL column as a new DataFrame column
+
+data = db.session.query(LPRRank).all()
+df = pd.read_sql(sql = db.session.query(LPRRank).statement, con = db.session.bind)
+df['ridings'] = [L.ballot.riding for L in LPRRank.query.all()]
+
+{remove id column} <-- look at modified answer from Parfait
+ 							# {remove user_id column}   ??
+# remaining things to do
+{group according to ridings}
+{vote count for candidates in each riding}
+{count votes in each riding}
+{calculate percent of votes for the leader in each riding}
+{
+
+#df = pd.DataFrame([(d.candid, d.rank, d.user_id) for d in data],columns=['candid', 'rank', 'user_id'])
+

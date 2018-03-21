@@ -1,0 +1,47 @@
+
+
+<FPTPVote 0x31053b3f || fluffy || West Riding || 4.275804 || Mock Pet Election>
+<FPTPVote 0x2a71b2f0 || jasper || South Riding || 5.03988 || Mock Pet Election>
+<FPTPVote 0xc2f9387 || jasper || East Riding || 4.517855 || Mock Pet Election>
+<FPTPVote 0x4f9c9a || fluffy || West Riding || 5.169548 || Mock Pet Election>
+<FPTPVote 0x1d00c3cd || fluffy || East Riding || 5.200001 || Mock Pet Election>
+<FPTPVote 0x14d3468c || isabelle || South Riding || 3.787191 || Mock Pet Election>
+<FPTPVote 0x266a7a40 || fluffy || South Riding || 5.624741 || Mock Pet Election>
+<FPTPVote 0x37140895 || fluffy || East Riding || 14.664484 || Mock Pet Election>
+<FPTPVote 0x2ffe885a || isabelle || North Riding || 14.190691 || Mock Pet Election>
+<FPTPVote 0x36ff118b || isabelle || East Riding || 3.732879 || Mock Pet Election>
+<FPTPVote 0xc609a1d || jasper || South Riding || 3.912581 || Mock Pet Election>
+<FPTPVote 0x33515f48 || jasper || West Riding || 3.430755 || Mock Pet Election>
+<FPTPVote 0x2cbdd412 || sadie || West Riding || 6.78081 || Mock Pet Election>
+
+East Riding winner:
+Cats :  J. Jasper  with  3  votes.
+Election results in  East Riding riding.
+Candidate  sadie  received  1  votes.
+Candidate  jasper  received  3  votes.
+Candidate  fluffy  received  3  votes.
+Candidate  isabelle  received  2  votes.
+
+South Riding winner:
+Rabbits :  F. Fluffy  with  5  votes.
+Election results in  South Riding riding.
+Candidate  sadie  received  1  votes.
+Candidate  jasper  received  4  votes.
+Candidate  fluffy  received  5  votes.
+Candidate  isabelle  received  3  votes.
+
+West Riding winner:
+Cats :  J. Jasper  with  3  votes.
+Election results in  West Riding riding.
+Candidate  sadie  received  2  votes.
+Candidate  jasper  received  3  votes.
+Candidate  fluffy  received  2  votes.
+Candidate  isabelle  received  0  votes.
+
+North Riding winner:
+Cats :  J. Jasper  with  5  votes.
+Election results in  North Riding riding.
+Candidate  sadie  received  1  votes.
+Candidate  jasper  received  5  votes.
+Candidate  fluffy  received  3  votes.
+Candidate  isabelle  received  1  votes.
